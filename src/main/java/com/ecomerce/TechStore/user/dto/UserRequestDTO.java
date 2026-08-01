@@ -1,16 +1,11 @@
 package com.ecomerce.TechStore.user.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class UserRequestDTO {
-    private String name;
-    private String email;
-    private String password;
+public record UserRequestDTO(
+        @NotBlank String name,
+        @Email @NotBlank String email,
+        @NotBlank @Size(min = 8) String password) {
 }

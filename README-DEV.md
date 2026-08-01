@@ -54,5 +54,9 @@ El script hará lo siguiente:
 - **Re‑iniciar**: `docker compose down && ./start-all.sh`
 
 ---
+## 📋 Pending Tasks
+- [ ] Implement a Global Exception Handler (`com.ecomerce.TechStore.exception`) to handle and format API errors (e.g. resource not found, validation failures) consistently.
+
+---
 ## ✅ ¡Listo!
 Con estos pasos deberías tener la base de datos, el servidor de identidad y la API corriendo en local, listos para usar con tu frontend o herramientas como Postman.

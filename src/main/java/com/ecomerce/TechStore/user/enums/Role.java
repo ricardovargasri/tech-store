@@ -1,6 +1,6 @@
 package com.ecomerce.TechStore.user.enums;
 
-public enum RoleName {
+public enum Role {
     ROLE_ADMIN,
     ROLE_CUSTOMER
 }

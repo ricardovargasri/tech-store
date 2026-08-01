@@ -2,9 +2,9 @@ package com.ecomerce.TechStore.user.mapper;
 
 import com.ecomerce.TechStore.user.dto.UserRequestDTO;
 import com.ecomerce.TechStore.user.dto.UserResponseDTO;
-import com.ecomerce.TechStore.user.entity.Role;
+import com.ecomerce.TechStore.user.entity.RoleName;
 import com.ecomerce.TechStore.user.entity.User;
-import com.ecomerce.TechStore.user.enums.RoleName;
+import com.ecomerce.TechStore.user.enums.Role;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -26,12 +26,12 @@ public interface UserMapper {
     @Mapping(target = "roles", expression = "java(mapRoles(user.getRoles()))")
     UserResponseDTO toResponseDTO(User user);
 
-    default List<RoleName> mapRoles(Set<Role> roles) {
+    default List<Role> mapRoles(Set<RoleName> roles) {
         if (roles == null) {
             return Collections.emptyList();
         }
         return roles.stream()
-                .map(Role::getName)
+                .map(RoleName::getName)
                 .collect(Collectors.toList());
     }
 }

@@ -1,6 +1,6 @@
 package com.ecomerce.TechStore.user.dto;
 
-import com.ecomerce.TechStore.user.enums.RoleName;
+import com.ecomerce.TechStore.user.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +16,6 @@ public class UserResponseDTO {
     private Long id;
     private String name;
     private String email;
-    private List<RoleName> roles;
+    private List<Role> roles;
     private Boolean active;
 }

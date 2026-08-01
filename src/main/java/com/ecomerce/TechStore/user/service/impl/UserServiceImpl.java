@@ -2,9 +2,9 @@ package com.ecomerce.TechStore.user.service.impl;
 
 import com.ecomerce.TechStore.user.dto.UserRequestDTO;
 import com.ecomerce.TechStore.user.dto.UserResponseDTO;
-import com.ecomerce.TechStore.user.entity.Role;
+import com.ecomerce.TechStore.user.entity.RoleName;
 import com.ecomerce.TechStore.user.entity.User;
-import com.ecomerce.TechStore.user.enums.RoleName;
+import com.ecomerce.TechStore.user.enums.Role;
 import com.ecomerce.TechStore.user.mapper.UserMapper;
 import com.ecomerce.TechStore.user.repository.RoleRepository;
 import com.ecomerce.TechStore.user.repository.UserRepository;
@@ -30,13 +30,13 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserResponseDTO createUser(UserRequestDTO requestDTO) {
-        if (userRepository.existsByEmail(requestDTO.getEmail())) {
-            throw new IllegalArgumentException("Email already registered: " + requestDTO.getEmail());
+        if (userRepository.existsByEmail(requestDTO.email())) {
+            throw new IllegalArgumentException("Email already registered: " + requestDTO.email());
         }
         User user = userMapper.toEntity(requestDTO);
-        user.setPassword(passwordEncoder.encode(requestDTO.getPassword()));
+        user.setPassword(passwordEncoder.encode(requestDTO.password()));
 
-        Role customerRole = roleRepository.findByName(RoleName.ROLE_CUSTOMER)
+        RoleName customerRole = roleRepository.findByName(Role.ROLE_CUSTOMER)
                 .orElseThrow(() -> new RuntimeException("Default role not found. Please seed the roles table."));
         user.setRoles(Set.of(customerRole));
 
@@ -64,9 +64,9 @@ public class UserServiceImpl implements UserService {
     public UserResponseDTO updateUser(Long id, UserRequestDTO requestDTO) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
-        user.setName(requestDTO.getName());
-        if (requestDTO.getPassword() != null && !requestDTO.getPassword().isBlank()) {
-            user.setPassword(passwordEncoder.encode(requestDTO.getPassword()));
+        user.setName(requestDTO.name());
+        if (requestDTO.password() != null && !requestDTO.password().isBlank()) {
+            user.setPassword(passwordEncoder.encode(requestDTO.password()));
         }
         return userMapper.toResponseDTO(userRepository.save(user));
     }
@@ -82,12 +82,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void changeRole(Long id, RoleName roleName) {
+    public void changeRole(Long id, Role role) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
-        Role role = roleRepository.findByName(roleName)
-                .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
-        user.setRoles(Set.of(role));
+        RoleName roleName = roleRepository.findByName(role)
+                .orElseThrow(() -> new RuntimeException("Role not found: " + role));
+        user.setRoles(Set.of(roleName));
         userRepository.save(user);
     }
 }

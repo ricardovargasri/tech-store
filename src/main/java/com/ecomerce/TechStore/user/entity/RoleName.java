@@ -1,6 +1,7 @@
 package com.ecomerce.TechStore.user.entity;
 
-import com.ecomerce.TechStore.user.enums.RoleName;
+import com.ecomerce.TechStore.user.enums.Role;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Role {
+public class RoleName {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,5 +22,5 @@ public class Role {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20, nullable = false, unique = true)
-    private RoleName name;
+    private Role name;
 }

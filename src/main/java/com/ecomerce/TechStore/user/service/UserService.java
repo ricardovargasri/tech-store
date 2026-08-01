@@ -2,7 +2,7 @@ package com.ecomerce.TechStore.user.service;
 
 import com.ecomerce.TechStore.user.dto.UserRequestDTO;
 import com.ecomerce.TechStore.user.dto.UserResponseDTO;
-import com.ecomerce.TechStore.user.enums.RoleName;
+import com.ecomerce.TechStore.user.enums.Role;
 
 import java.util.List;
 
@@ -18,5 +18,5 @@ public interface UserService {
 
     void blockUser(Long id);
 
-    void changeRole(Long id, RoleName role);
+    void changeRole(Long id, Role role);
 }

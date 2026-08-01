@@ -40,7 +40,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     @Builder.Default
-    private Set<Role> roles = new HashSet<>();
+    private Set<RoleName> roles = new HashSet<>();
 
     @Column(nullable = false)
     @Builder.Default
