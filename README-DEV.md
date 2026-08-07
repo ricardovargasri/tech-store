@@ -54,6 +54,52 @@ El script hará lo siguiente:
 - **Re‑iniciar**: `docker compose down && ./start-all.sh`
 
 ---
+## 4️⃣ Pruebas de Carga (Load Testing) con k6 (Enfoque A: Usuario Único)
+
+Para simular peticiones concurrentes y verificar el rendimiento de la aplicación y la efectividad de los bloqueos de concurrencia (`@Lock`), puedes usar **k6**.
+
+### Prerequisitos
+- Instala **k6** en tu sistema (ver [Guía de Instalación de k6](https://k6.io/docs/getting-started/installation/)).
+
+### Script de prueba
+Crea un archivo llamado `load-test.js` en la raíz de tu proyecto:
+```javascript
+import http from 'k6/http';
+import { sleep, check } from 'k6';
+
+export const options = {
+  vus: 50,          // 50 usuarios virtuales simultáneos
+  duration: '30s',   // durante 30 segundos
+};
+
+export default function () {
+  const url = 'http://localhost:8081/api/orders';
+  const payload = JSON.stringify({
+    productId: 1,
+    quantity: 1
+  });
+
+  const params = {
+    headers: {
+      'Content-Type': 'application/json',
+      // Si la API tiene seguridad habilitada, coloca el token aquí:
+      // 'Authorization': 'Bearer TU_JWT_TOKEN'
+    },
+  };
+
+  const res = http.post(url, payload, params);
+  check(res, { 'status fue 201': (r) => r.status === 201 || r.status === 200 });
+  sleep(1); // espera 1 segundo entre peticiones de cada usuario
+}
+```
+
+### Ejecutar la prueba
+Con la aplicación Spring y la base de datos corriendo, ejecuta desde la raíz:
+```bash
+k6 run load-test.js
+```
+
+---
 ## 📋 Pending Tasks
 - [ ] Implement a Global Exception Handler (`com.ecomerce.TechStore.exception`) to handle and format API errors (e.g. resource not found, validation failures) consistently.
 
